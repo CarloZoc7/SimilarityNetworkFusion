@@ -12,12 +12,13 @@ def find_k_neighbors(row, i, k=None):
     else:
         k_neighbors_index=[]
         neigh = 0
+        max_value = max(row)
         for j in range(0, len(row)):
             if j!=i:
                 min_index = row.index(min(row))
                 k_neighbors_index.append(min_index)
                 neigh+=1
-                del row[min_index]
+                row[min_index] = max_value
                 if neigh == k:
                     return k_neighbors_index
 
