@@ -8,16 +8,16 @@ def find_k_neighbors(row, i, k=None):
         del row[i]  #delete element of the same column of row index
         return row
     
-    #case of S (find k elements with maximimum similarity value of W[i][j])
+    #case of S (find k elements with minimum distance value of W[i][j])
     else:
         k_neighbors_index=[]
         neigh = 0
         for j in range(0, len(row)):
             if j!=i:
-                max_index = row.index(max(row))
-                k_neighbors_index.append(max_index)
+                min_index = row.index(min(row))
+                k_neighbors_index.append(min_index)
                 neigh+=1
-                del row[max_index]
+                del row[min_index]
                 if neigh == k:
                     return k_neighbors_index
 
