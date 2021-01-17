@@ -4,7 +4,8 @@ import os
 
 from scipy.spatial.distance import pdist, squareform, cdist
 from copy import deepcopy
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
+from tqdm import tqdm
 
 """
 Similarity Network Fusion:
@@ -81,7 +82,7 @@ class SimilarityNetworkFusion:
             with:
                 eps = (topK_mean_i + topK_mean_j + distance(i, j))/3
         """
-        if './data-ready/weights_matrix_'+name+'.pkl' in os.listdir('.'):
+        if 'weights_matrix_'+name+'.pkl' in os.listdir('./data-ready'):
             print('Read file pickle for weights matrix of {}'.format(name))
             weights = pd.read_pickle('./data-ready/weights_matrix_'+name+'.pkl')
             #dist = pdist(dataset, 'euclidean')
@@ -177,7 +178,7 @@ class SimilarityNetworkFusion:
                            | 1/2                               -->  (if i == j)
             
         """
-        if './data-ready/pStarting_matrix_'+name+'.pkl' in os.listdir('.'):
+        if 'pStarting_matrix_'+name+'.pkl' in os.listdir('./data-ready/'):
             print('Reading the file pickle for the p starting matrix {}'.format(name))
             df_p = pd.read_pickle('./data-ready/pStarting_matrix_'+name+'.pkl')
             return df_p.to_numpy()
@@ -279,7 +280,7 @@ class SimilarityNetworkFusion:
             The function stops when the difference between the P matrices are equal to the parameter matrices_diff passed.
             If the differences isn't reached after a num_iteration, it stops automatically.
             The difference is calculated as follow:
-                diff_matrix += | P^(1) - P^(2) |
+                diff_matrix = | P^(1) - P^(2) |
         """
         if matrices_diff is not None:
             self.p_rna = self.starting_p_rna.copy()
@@ -327,7 +328,7 @@ class SimilarityNetworkFusion:
             
             the matrix (2) in the first row and the matrix (1) in the second as the mean between the matrix P of the other 2 omnics.
             The function stops when it reaches the local minum (the lowest value that is repeated for iters_to_min times).
-            If the differences isn't reached after a num_iteration, it stops automatically.
+            If the local minimum isn't reached after a num_iteration, it stops automatically.
         """
         if iters_to_min is not None:
             self.p_rna = self.starting_p_rna.copy()
