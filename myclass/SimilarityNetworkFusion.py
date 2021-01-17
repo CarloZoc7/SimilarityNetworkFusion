@@ -265,11 +265,13 @@ class SimilarityNetworkFusion:
                 self.p_rna = self.p_rna_t1
                 self.p_mirna = self.p_mirna_t1
                 self.p_illumina = self.p_illumina_t1
+        else:
+            print('No number of iterations indicated!')
 
         return self
     
    
-    def iterations_fit(self, matrices_diff=None, max_iter=100):
+    def iterations_fit(self, matrices_diff=None, max_iter=100, plot_step=True):
         """
             Execute the updating of the matrices in this way:
 
@@ -304,22 +306,25 @@ class SimilarityNetworkFusion:
                         diff_matrix += np.abs(self.p_illumina[i][j] - self.p_rna[i][j])
                 
                 diff_matrix = diff_matrix**0.5
-                print(step, ':', diff_matrix)
+                if plot_step:
+                    print(step, ':', diff_matrix)
                 
                 #diff_matrix = np.abs(np.subtract(self.p_rna, self.p_mirna)) + np.abs(np.subtract(self.p_rna, self.p_illumina)) + np.abs(np.subtract(self.p_mirna, self.p_illumina))
                 #diff_matrix= np.abs(np.mean(diff_matrix))
                 if diff_matrix<=np.abs(matrices_diff):
-                    print('number of iterations to reach difference: ', step)
+                    if plot_step:
+                        print('number of iterations to reach difference: ', step)
                     break
                     
                 if step == max_iter-1: ##impossible to reach matrices difference
-                    print('impossible to reach indicated difference, try with a bigger difference value')
+                    if plot_step:
+                        print('impossible to reach indicated difference, try with a bigger difference value')
         else:
             print('no difference for matrices found')
 
         return self
     
-    def local_minimum_fit(self, iters_to_min=None, max_iter=100):
+    def local_minimum_fit(self, iters_to_min=None, max_iter=100, plot_step=True):
         """
              Execute the updating of the matrices in this way:
 
@@ -353,7 +358,8 @@ class SimilarityNetworkFusion:
                         diff_matrix += np.abs(self.p_illumina[i][j] - self.p_rna[i][j])
                 
                 diff_matrix = diff_matrix**0.5
-                print(step, ':', diff_matrix)
+                if plot_step:
+                    print(step, ':', diff_matrix)
                 
                 #diff_matrix = np.abs(np.subtract(self.p_rna, self.p_mirna)) + np.abs(np.subtract(self.p_rna, self.p_illumina)) + np.abs(np.subtract(self.p_mirna, self.p_illumina))
                 #diff_matrix= np.abs(np.mean(diff_matrix))
@@ -362,7 +368,8 @@ class SimilarityNetworkFusion:
                 if int(diff_matrix)==prev_diff:
                     count+=1
                     if count>=iters_to_min:
-                        print('local minimum reached in ', step, 'iterations')
+                        if plot_step:
+                            print('local minimum reached in ', step, 'iterations')
                         break
                 else:
                     count=0
@@ -370,7 +377,8 @@ class SimilarityNetworkFusion:
                 prev_diff = int(diff_matrix)
                     
                 if step == max_iter-1: ##impossible to reach matrices difference
-                    print('impossible to reach local minimum, matrices seem to not converge')
+                    if plot_step:
+                        print('impossible to reach local minimum, matrices seem to not converge')
         else:
             print('no minimum iterations for matrices found')
 
