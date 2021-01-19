@@ -2,6 +2,12 @@ import os
 import json
 import pandas as pd
 
+"""
+    Class to extract the clinical_case from the json file.
+    It returns a dataframe in the following form:
+    case_id| ...[clinical case]...| label.
+"""
+
 
 class ExtractClinicalCase:
     def __init__(self, cases_id):
@@ -41,6 +47,9 @@ class ExtractClinicalCase:
         return self.df
 
     def __truncate__(self, n, decimals=-1):
+        """
+            Function to take the decade of the age.
+        """
         multiplier = 10 ** decimals
         return int(n * multiplier) / multiplier
                 

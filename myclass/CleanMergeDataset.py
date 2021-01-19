@@ -3,6 +3,11 @@ import numpy as np
 import pickle
 import platform
 
+"""
+	Class that allows to clean and merge the tumor and normal dataset.
+
+"""
+
 class Clean_Merge_Dataset:
 	def __init__(self, name=''):
 		self.path_to_final = './data-ready/final_dataset_'+name+'.pkl'
@@ -11,9 +16,18 @@ class Clean_Merge_Dataset:
 		return
 
 	def fit(self, X, y=None):
+		"""
+			function created to add the class element to the Pipeline function.
+		"""
 		return self
 		
 	def transform(self, data_normal, data_tumor, X=None, y=None):
+		"""
+			The process trasform is the following:
+				1 - removing the label 'TCGA-MESO' and 'CPTAC-3'
+				2 - deleting 0-values and Nan-values
+				3 - Return the dataset, the labels and the cases_id to the main function
+		"""
 		print('Data_normal:', data_normal.shape)
 		print('Data_tumor:', data_tumor.shape)
 
@@ -30,9 +44,7 @@ class Clean_Merge_Dataset:
 		for index, element in dataset.iterrows():
 			if element['target'] is False:
 				element['label'] = element['target']
-			#else:
-				# element['label'] = element['label'] + '_' + str(element['target'])
-				#element['label'] = element['label']
+
 			dataset.at[index, 'label'] = element['label']
 		dataset.drop(['target'], inplace=True, axis=1)
 		

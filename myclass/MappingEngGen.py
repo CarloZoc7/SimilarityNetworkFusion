@@ -14,6 +14,12 @@ R_SEMICOLON = re.compile(r'\s*;\s*')
 R_COMMA     = re.compile(r'\s*,\s*')
 R_KEYVALUE  = re.compile(r'(\s+|\s*=\s*)')
 
+"""
+	Class to map the ENG.
+	The source function to read and manage the .GTF file is taken from the following repository:
+		https://gist.github.com/slowkow/8101481
+"""
+
 class MappingENG:
 
 	def dataframe_gtf(self, filename):

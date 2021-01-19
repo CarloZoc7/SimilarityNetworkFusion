@@ -4,7 +4,13 @@ import numpy as np
 from tqdm import tqdm
 
 from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score
+from sklearn.metrics import silhouette_score, adjusted_rand_score
+
+"""
+	Apply the SBS (Sequential backward Selection)
+
+"""
+
 
 class FeatureSelection:
 	def __init__(self, model=KMeans(n_clusters=3), eval_op=silhouette_score):

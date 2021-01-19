@@ -1,5 +1,10 @@
 import pandas as pd
 
+"""
+	Class to create a table to show the approch use for the different omnic and
+	to show the result obtained.
+"""
+
 class ResultTable:
 	def __init__(self, name='', cluster='', usedBonf=False, usedPCA=False, usedMMS=False, usedSS=False, usedLT=False,
 				usedSF=False, silhouette=0.0, RandIndex=0.0):

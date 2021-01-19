@@ -6,6 +6,11 @@ import platform
 from scipy import stats
 from itertools import combinations
 
+"""
+	Class to apply the Bonferroni T Test.
+
+"""
+
 class Bonferroni_Ttest():
 
 	def __init__(self, alpha=0.05, debug=False, label_case_id_into_X=False):
@@ -45,6 +50,12 @@ class Bonferroni_Ttest():
 		return self
 
 	def transform(self, X, y=None):
+		"""	
+			The fuction works in the following way:
+				1 - Create all the possibile combinations, with k=2, between the tumor types.
+				2 - Than for each combination we calculate the ttest.
+				3 - at the end each value which is greater than the threshold is selected to be dropped.
+		"""
 		X_ = X.copy()
 
 		# if in X there are 'label' and 'case_id' features
@@ -93,25 +104,4 @@ class Bonferroni_Ttest():
 
 	def fit_transform(self, X, y):
 		return self.fit(X,y).transform(X,y)
-
-	def prepare_data_to_plot(self, p_values):
-		newdf = pd.DataFrame(columns=['p_value', 'tumor'])
-		tmp = dict()
-		for key in p_values.keys():
-			values = p_values[key]
-			label = [str(key) for i in range(0, len(values))]
-			
-			tmp['p_value'] = values
-			tmp['tumor'] = label
-		
-			newdf = newdf.append(pd.DataFrame(tmp), ignore_index=True)
-		newdf.dropna(inplace=True)
-		return pd.DataFrame(newdf)
-
-	def get_pvalue_for_tumors(self):
-		return self.prepare_data_to_plot(self.pvalue_for_tumor)
-
-	def get_pvalue_for_tumors_filtered(self):
-		return self.prepare_data_to_plot(self.pvalue_clean)
-
 	
